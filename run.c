@@ -3,8 +3,11 @@
 
 #include "run.h"
 #include "util.h"
+#include <stdio.h>
+
 
 void *base = 0;
+
 
 p_meta find_meta(p_meta *last, size_t size) {
   p_meta index = base;
@@ -14,6 +17,14 @@ p_meta find_meta(p_meta *last, size_t size) {
     case FIRST_FIT:
     {
       //FIRST FIT CODE
+      while(index){
+        if(index -> free ==1 && index ->size >= size){
+            result = index;
+            break;
+        }
+        index = index -> next;
+      }
+        result = index;
     }
     break;
 
@@ -34,6 +45,13 @@ p_meta find_meta(p_meta *last, size_t size) {
 }
 
 void *m_malloc(size_t size) {
+  p_meta index = base;
+  p_meta result = base;
+  p_meta current = sbrk(0);
+  if(result == current){
+     result = index + sbrk(size);
+  }
+  
 
 }
 
